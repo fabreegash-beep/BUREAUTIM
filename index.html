@@ -4,142 +4,164 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>متجري أونلاين</title>
+
 <style>
-* {box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
-body {background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; margin:0;}
-.container {max-width: 1200px; margin:0 auto;}
-.admin-panel {background:white; border-radius:25px; padding:25px; margin-bottom:30px; box-shadow:0 10px 30px rgba(0,0,0,0.2); display:none;}
-.admin-panel.show {display:block;}
-.admin-toggle {background:#2c3e50;color:white;border:none;padding:10px 20px;border-radius:50px;cursor:pointer;margin-bottom:20px;font-size:14px;}
-.admin-toggle:hover {background:#1a252f;}
-h2 {color:#333;margin-bottom:20px;}
-.form-group {margin-bottom:15px;}
-label {display:block;font-weight:bold;margin-bottom:5px;color:#555;}
-input,textarea {width:100%; padding:10px; font-size:14px; border:2px solid #ddd; border-radius:10px; outline:none;}
-input:focus {border-color:#667eea;}
-button {background:#667eea;color:white;border:none;padding:12px 20px;font-size:16px;border-radius:10px;cursor:pointer;font-weight:bold;}
-button:hover {background:#5a67d8;}
-.btn-danger {background:#dc3545;}
-.btn-danger:hover {background:#c82333;}
-.image-preview {margin-top:10px;text-align:center;}
-.image-preview img {max-width:150px;max-height:150px;border-radius:10px;border:2px solid #ddd;}
-.products-grid {display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:25px; margin-top:20px;}
-.product-card {background:white;border-radius:20px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.1); transition: transform 0.2s;}
-.product-card:hover {transform: translateY(-5px);}
-.product-card img {width:100%; height:200px; object-fit:cover;}
-.product-info {padding:15px;}
-.product-ref {color:#667eea; font-size:12px; font-weight:bold;}
-.product-name {font-size:18px; font-weight:bold; margin:8px 0; color:#333;}
-.product-type {color:#777; font-size:14px; margin-bottom:8px;}
-.product-price {font-size:20px; font-weight:bold; color:#27ae60; margin:10px 0;}
-.product-quantity {font-size:14px;color:#555;margin-bottom:10px;}
-.quantity-low {color:#ff9800;}
-.quantity-zero {color:#dc3545;}
-.search-box {background:white; border-radius:50px; padding:10px 20px; margin-bottom:30px; display:flex; gap:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
-.search-box input {flex:1; border:none; font-size:16px;}
-.search-box input:focus {outline:none;}
-.search-box button {width:auto; padding:8px 25px;}
-.no-results {text-align:center;color:white;font-size:20px;padding:50px;}
-.success-msg {background:#d4edda;color:#155724;padding:10px;border-radius:10px;margin-top:15px;text-align:center;}
-.error-msg {background:#f8d7da;color:#721c24;padding:10px;border-radius:10px;margin-top:15px;text-align:center;}
-.admin-buttons {display:flex; gap:10px; margin-top:10px;}
-.admin-buttons button {flex:1;padding:5px; font-size:12px;}
+* {box-sizing:border-box; font-family: 'Segoe UI', Tahoma;}
+body {background: linear-gradient(135deg,#667eea,#764ba2); padding:20px; margin:0;}
+.container {max-width:1200px;margin:auto;}
+.admin-panel {background:white;border-radius:20px;padding:20px;display:none;}
+.admin-panel.show{display:block;}
+button {background:#667eea;color:white;border:none;padding:10px;border-radius:10px;cursor:pointer;}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;margin-top:20px;}
+.product-card{background:white;border-radius:15px;overflow:hidden;}
+.product-card img{width:100%;height:200px;object-fit:cover;}
+.product-info{padding:10px;}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-<button class="admin-toggle" onclick="toggleAdmin()">🔐 لوحة الإدارة (لصاحب المتجر فقط)</button>
+
+<button onclick="toggleAdmin()">🔐 لوحة الإدارة</button>
 
 <div id="adminPanel" class="admin-panel">
-<h2>➕ إضافة سلعة جديدة</h2>
-<div class="form-group">
-<label>الرفيرونس *</label>
-<input type="text" id="refInput" placeholder="مثال: PROD-001">
-</div>
-<div class="form-group">
-<label>اسم السلعة *</label>
-<input type="text" id="nameInput" placeholder="مثال: هاتف ايفون 13">
-</div>
-<div class="form-group">
-<label>النوع</label>
-<input type="text" id="typeInput" placeholder="مثال: هواتف ذكية">
-</div>
-<div class="form-group">
-<label>الكمية</label>
-<input type="number" id="quantityInput" value="1">
-</div>
-<div class="form-group">
-<label>السعر (دج)</label>
-<input type="number" id="priceInput" value="0">
-</div>
-<div class="form-group">
-<label>صورة السلعة</label>
-<input type="file" id="imageUpload" accept="image/*">
-<div id="imagePreview" class="image-preview"></div>
-</div>
-<button onclick="addProduct()">💾 إضافة السلعة</button>
-<div id="adminMsg"></div>
 
-<hr style="margin:20px 0;">
-<h2>📋 قائمة السلع (للحذف)</h2>
-<div id="adminProductList"></div>
+<input id="refInput" placeholder="رفيرونس"><br><br>
+<input id="nameInput" placeholder="اسم"><br><br>
+<input id="typeInput" placeholder="نوع"><br><br>
+<input id="quantityInput" type="number" value="1"><br><br>
+<input id="priceInput" type="number" value="0"><br><br>
+
+<input type="file" id="imageUpload"><br><br>
+
+<button onclick="openCamera()">📷 تصوير مباشر</button>
+<video id="camera" style="display:none;width:100%" autoplay></video>
+<button onclick="takePhoto()" id="captureBtn" style="display:none;">📸 التقاط</button>
+
+<div id="imagePreview"></div><br>
+
+<button onclick="addProduct()">💾 إضافة</button>
+
 </div>
 
-<div class="search-box">
-<input type="text" id="searchInput" placeholder="🔍 ابحث بالرفيرونس أو الاسم...">
+<br>
+
+<input id="searchInput" placeholder="🔍 بحث">
 <button onclick="searchProducts()">بحث</button>
-<button onclick="clearSearch()" style="background:#95a5a6;">عرض الكل</button>
-</div>
 
-<h2 style="color:white;text-align:center;" id="resultTitle">🛍️ جميع السلع</h2>
 <div id="productsGrid" class="products-grid"></div>
-<div id="noResults" class="no-results" style="display:none;">❌ لا توجد نتائج</div>
+
 </div>
 
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBXflYRNpbEWHLzyvWBjeAcYkr5W7BaXq4",
+  apiKey: "YOUR_KEY",
   authDomain: "arabic-game-onlin.firebaseapp.com",
   databaseURL: "https://arabic-game-onlin-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "arabic-game-onlin",
-  storageBucket: "arabic-game-onlin.firebasestorage.app",
-  messagingSenderId: "406939044821",
-  appId: "1:406939044821:android:35da06e4a49972cb3f8b5c"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ⭐⭐⭐ نفس كود إضافة وحذف وعرض المنتجات السابق ⭐⭐⭐
-function imageToBase64(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});}
-async function addProduct(){
-  const ref=document.getElementById('refInput').value.trim().toUpperCase();
-  const name=document.getElementById('nameInput').value.trim();
-  const type=document.getElementById('typeInput').value.trim();
-  const quantity=parseInt(document.getElementById('quantityInput').value)||0;
-  const price=parseInt(document.getElementById('priceInput').value)||0;
-  const imageFile=document.getElementById('imageUpload').files[0];
-  if(!ref||!name){showAdminMsg('❌ الرفيرونس والاسم مطلوبان','error');return;}
-  let imageBase64='';
-  if(imageFile){imageBase64=await imageToBase64(imageFile);}else{imageBase64='https://picsum.photos/id/20/300/300';}
-  db.ref('products/'+ref).set({ref,name,type:type||'غير محدد',quantity,price,image:imageBase64})
-  .then(()=>{showAdminMsg('✅ تم إضافة السلعة بنجاح!','success');clearForm();})
-  .catch(err=>showAdminMsg('❌ حدث خطأ: '+err,'error'));
+let cameraStream=null;
+let capturedImage='';
+
+function openCamera(){
+navigator.mediaDevices.getUserMedia({video:true})
+.then(stream=>{
+cameraStream=stream;
+camera.srcObject=stream;
+camera.style.display='block';
+captureBtn.style.display='block';
+});
 }
-function deleteProduct(ref){if(confirm(`هل تريد حذف السلعة ${ref}?`)){db.ref('products/'+ref).remove().then(()=>showAdminMsg('✅ تم حذف السلعة','success')).catch(err=>showAdminMsg('❌ حدث خطأ: '+err,'error'));}}
-function clearForm(){document.getElementById('refInput').value='';document.getElementById('nameInput').value='';document.getElementById('typeInput').value='';document.getElementById('quantityInput').value='1';document.getElementById('priceInput').value='0';document.getElementById('imageUpload').value='';document.getElementById('imagePreview').innerHTML='';}
-function toggleAdmin(){document.getElementById('adminPanel').classList.toggle('show');}
-function showAdminMsg(msg,type){const div=document.getElementById('adminMsg'); div.innerHTML=`<div class="${type==='success'?'success-msg':'error-msg'}">${msg}</div>`; setTimeout(()=>div.innerHTML='',3000);}
-function searchProducts(){displayAllProducts(document.getElementById('searchInput').value);}
-function clearSearch(){document.getElementById('searchInput').value=''; displayAllProducts('');}
-function displayAllProducts(filterText=''){db.ref('products').once('value').then(snapshot=>{const productsObj=snapshot.val()||{};let productsArray=Object.values(productsObj);if(filterText){const searchTerm=filterText.toLowerCase();productsArray=productsArray.filter(p=>p.ref.toLowerCase().includes(searchTerm)||p.name.toLowerCase().includes(searchTerm));}const grid=document.getElementById('productsGrid');const noResults=document.getElementById('noResults');if(productsArray.length===0){grid.innerHTML='';noResults.style.display='block';document.getElementById('resultTitle').style.display='none';return;}noResults.style.display='none';document.getElementById('resultTitle').style.display='block';let html='';for(let p of productsArray){let quantityClass='';if(p.quantity<=0)quantityClass='quantity-zero';else if(p.quantity<=5)quantityClass='quantity-low';html+=`<div class="product-card"><img src="${p.image}" alt="${p.name}" onerror="this.src='https://picsum.photos/id/20/300/300'"><div class="product-info"><div class="product-ref">📌 ${p.ref}</div><div class="product-name">${p.name}</div><div class="product-type">📂 ${p.type}</div><div class="product-price">💰 ${p.price.toLocaleString()} دج</div><div class="product-quantity">📦 الكمية: <span class="${quantityClass}">${p.quantity}</span></div></div></div>`;}grid.innerHTML=html;displayAdminList();});}
-function displayAdminList(){db.ref('products').once('value').then(snapshot=>{const productsObj=snapshot.val()||{};const listDiv=document.getElementById('adminProductList');let html='<div class="product-list" style="max-height:300px;overflow-y:auto;">';for(let ref in productsObj){const p=productsObj[ref];html+=`<div style="background:#f8f9fa;padding:10px;margin-bottom:8px;border-radius:10px;"><strong>${ref}</strong> - ${p.name} (${p.quantity} قطعة)<div class="admin-buttons"><button onclick="deleteProduct('${ref}')" class="btn-danger">🗑️ حذف</button></div></div>`;}html+='</div>';listDiv.innerHTML=html||'<div>لا توجد سلع</div>';});}
-db.ref('products').on('value', displayAllProducts);
-document.getElementById('imageUpload').addEventListener('change',function(e){const preview=document.getElementById('imagePreview'); preview.innerHTML='';if(e.target.files[0]){const reader=new FileReader();reader.onload=function(event){const img=document.createElement('img');img.src=event.target.result;preview.appendChild(img);};reader.readAsDataURL(e.target.files[0]);}});
-document.getElementById('searchInput').addEventListener('keypress', function(e){if(e.key==='Enter') searchProducts();});
+
+function takePhoto(){
+let canvas=document.createElement('canvas');
+canvas.width=camera.videoWidth;
+canvas.height=camera.videoHeight;
+canvas.getContext('2d').drawImage(camera,0,0);
+
+capturedImage=canvas.toDataURL();
+imagePreview.innerHTML=`<img src="${capturedImage}" width="150">`;
+
+cameraStream.getTracks().forEach(t=>t.stop());
+camera.style.display='none';
+captureBtn.style.display='none';
+}
+
+function imageToBase64(file){
+return new Promise(r=>{
+let reader=new FileReader();
+reader.onload=()=>r(reader.result);
+reader.readAsDataURL(file);
+});
+}
+
+async function addProduct(){
+
+let ref=refInput.value.toUpperCase();
+let name=nameInput.value;
+let type=typeInput.value;
+let q=parseInt(quantityInput.value)||0;
+let p=parseInt(priceInput.value)||0;
+
+let file=imageUpload.files[0];
+let img='';
+
+if(capturedImage) img=capturedImage;
+else if(file) img=await imageToBase64(file);
+else img='https://picsum.photos/300';
+
+db.ref('products/'+ref).set({ref,name,type,quantity:q,price:p,image:img});
+
+alert("تمت الإضافة");
+}
+
+function displayAllProducts(filter=''){
+db.ref('products').once('value').then(snap=>{
+let arr=Object.values(snap.val()||{});
+
+if(filter){
+filter=filter.toLowerCase();
+arr=arr.filter(p=>
+p.ref.toLowerCase().includes(filter)||
+p.name.toLowerCase().includes(filter)||
+p.type.toLowerCase().includes(filter)
+);
+}
+
+let html='';
+arr.forEach(p=>{
+html+=`
+<div class="product-card">
+<img src="${p.image}">
+<div class="product-info">
+${p.name}<br>
+${p.type}<br>
+${p.price} دج
+</div>
+</div>`;
+});
+
+productsGrid.innerHTML=html;
+});
+}
+
+function searchProducts(){
+displayAllProducts(searchInput.value);
+}
+
+function toggleAdmin(){
+adminPanel.classList.toggle('show');
+}
+
+displayAllProducts();
+
 </script>
 
 </body>
