@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>مستودع المكتب | نظام إدارة المخزون</title>
+<title>مستودع المكتب | نظام متكامل للمخزون والملاحظات</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -112,12 +112,22 @@ body {
     color: white;
 }
 
+.btn-success {
+    background: #10b981;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #059669;
+}
+
 .main-container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem;
 }
 
+/* بطاقات الإحصائيات */
 .stats-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -168,6 +178,7 @@ body {
     color: #1e293b;
 }
 
+/* لوحة الإضافة */
 .add-panel {
     background: white;
     border-radius: 24px;
@@ -210,15 +221,6 @@ body {
     gap: 8px;
 }
 
-.ref-auto {
-    background: #f1f5f9;
-    padding: 0.3rem 0.8rem;
-    border-radius: 50px;
-    font-size: 0.7rem;
-    color: #3b82f6;
-    direction: ltr;
-}
-
 .form-layout {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -258,6 +260,7 @@ body {
     min-height: 80px;
 }
 
+/* قسم التصنيفات */
 .categories-area {
     margin-bottom: 1.5rem;
 }
@@ -367,10 +370,12 @@ body {
     box-shadow: 0 10px 20px rgba(59,130,246,0.3);
 }
 
+/* قسم المنتجات والملاحظات */
 .products-area {
     background: white;
     border-radius: 24px;
     padding: 1.5rem;
+    margin-bottom: 2rem;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
@@ -452,7 +457,7 @@ body {
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.2rem;
 }
 
@@ -510,6 +515,23 @@ body {
     font-size: 0.7rem;
     font-weight: 600;
     margin: 0.5rem 0;
+}
+
+.product-date {
+    font-size: 0.7rem;
+    color: #64748b;
+    margin: 0.3rem 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.date-badge {
+    background: #f1f5f9;
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    font-size: 0.65rem;
 }
 
 .quantity-box {
@@ -575,6 +597,135 @@ body {
 .delete-btn {
     background: #fef2f2;
     color: #ef4444;
+}
+
+/* قسم الملاحظات */
+.notes-section {
+    background: white;
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eef2ff;
+}
+
+.notes-header h3 {
+    color: #1e293b;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.add-note-form {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.add-note-form textarea {
+    flex: 1;
+    padding: 0.8rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    font-family: 'Cairo';
+    resize: vertical;
+    min-height: 80px;
+}
+
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.note-item {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 1rem;
+    border-right: 4px solid #3b82f6;
+    transition: all 0.2s;
+}
+
+.note-item:hover {
+    background: #f1f5f9;
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.note-date {
+    font-size: 0.7rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.note-date i {
+    font-size: 0.7rem;
+}
+
+.note-content {
+    font-size: 0.9rem;
+    color: #1e293b;
+    line-height: 1.5;
+    margin: 0.5rem 0;
+}
+
+.note-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.btn-note-delete {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-note-delete:hover {
+    background: #fecaca;
+}
+
+.empty-notes {
+    text-align: center;
+    padding: 2rem;
+    color: #94a3b8;
+}
+
+.empty-notes i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.5;
 }
 
 .empty-state {
@@ -651,6 +802,10 @@ body {
     .search-box input {
         flex: 1;
     }
+    
+    .add-note-form {
+        flex-direction: column;
+    }
 }
 
 .loading {
@@ -668,7 +823,7 @@ body {
             <i class="fas fa-archive"></i>
             <div>
                 <h1>مستودع المكتب</h1>
-                <p>نظام إدارة المخزون</p>
+                <p>نظام متكامل للمخزون والملاحظات</p>
             </div>
         </div>
         <div class="buttons-group">
@@ -710,10 +865,10 @@ body {
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="stat-icon"><i class="fas fa-sticky-note"></i></div>
             <div class="stat-info">
-                <h3>سلع منخفضة</h3>
-                <div class="number" id="lowStock">0</div>
+                <h3>الملاحظات</h3>
+                <div class="number" id="totalNotes">0</div>
             </div>
         </div>
     </div>
@@ -744,7 +899,6 @@ body {
                 </div>
             </div>
             
-            <!-- قسم التصنيفات -->
             <div class="categories-area">
                 <label><i class="fas fa-folder-plus"></i> التصنيف *</label>
                 <div id="categoriesList" class="categories-list"></div>
@@ -789,6 +943,33 @@ body {
         
         <div id="productsGrid" class="products-grid"></div>
     </div>
+
+    <!-- قسم الملاحظات اليومية -->
+    <div class="notes-section">
+        <div class="notes-header">
+            <h3><i class="fas fa-sticky-note"></i> الملاحظات اليومية</h3>
+            <button class="btn btn-success" onclick="showAddNoteModal()">
+                <i class="fas fa-plus"></i> إضافة ملاحظة
+            </button>
+        </div>
+        
+        <div id="notesList" class="notes-list"></div>
+    </div>
+</div>
+
+<!-- نافذة إضافة ملاحظة -->
+<div id="noteModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+    <div style="background: white; border-radius: 24px; padding: 2rem; max-width: 500px; width: 90%; margin: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="color: #1e293b;">إضافة ملاحظة جديدة</h3>
+            <button onclick="closeNoteModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+        <textarea id="noteContent" style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 16px; font-family: 'Cairo'; min-height: 120px; margin-bottom: 1rem;" placeholder="اكتب ملاحظتك هنا..."></textarea>
+        <div style="display: flex; gap: 0.5rem;">
+            <button onclick="saveNote()" class="btn btn-primary" style="flex: 1;">حفظ الملاحظة</button>
+            <button onclick="closeNoteModal()" class="btn btn-outline" style="flex: 1;">إلغاء</button>
+        </div>
+    </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -814,10 +995,33 @@ body {
     // المتغيرات
     let categories = [];
     let products = [];
+    let notes = [];
     let currentFilter = 'الكل';
     let editingProduct = null;
     
-    // إنشاء رقم مرجع تلقائي
+    // دوال التاريخ
+    function getCurrentDateTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        return {
+            full: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
+            date: `${year}-${month}-${day}`,
+            time: `${hours}:${minutes}:${seconds}`,
+            timestamp: Date.now()
+        };
+    }
+    
+    function formatDate(timestamp) {
+        if (!timestamp) return 'غير محدد';
+        const date = new Date(timestamp);
+        return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+    }
+    
     function generateRef() {
         const now = new Date();
         const year = now.getFullYear();
@@ -851,7 +1055,7 @@ body {
         });
     }
     
-    // تحميل التصنيفات
+    // ========== إدارة التصنيفات ==========
     function loadCategories() {
         db.ref('officeCategories').once('value', (snapshot) => {
             const data = snapshot.val();
@@ -973,7 +1177,7 @@ body {
         displayProducts();
     }
     
-    // حفظ السلعة
+    // ========== إدارة المنتجات ==========
     async function saveProduct(event) {
         event.preventDefault();
         
@@ -983,6 +1187,7 @@ body {
         const quantity = parseInt(document.getElementById('quantity').value) || 0;
         const description = document.getElementById('description').value.trim() || '';
         const editRef = document.getElementById('editRefValue').value;
+        const now = getCurrentDateTime();
         
         if (!name) {
             showMessage('الرجاء إدخال اسم السلعة', 'error');
@@ -994,11 +1199,12 @@ body {
             return;
         }
         
-        // إذا كان تعديل، استخدم المرجع القديم
+        let isNew = false;
         if (editRef) {
             ref = editRef;
         } else if (!ref || ref === '') {
             ref = generateRef();
+            isNew = true;
         }
         
         let image = '';
@@ -1013,22 +1219,21 @@ body {
             image = `https://via.placeholder.com/300x200?text=${encodeURIComponent(name)}`;
         }
         
+        let existingProduct = null;
+        if (!editRef) {
+            existingProduct = products.find(p => p.ref === ref);
+        }
+        
         const productData = {
             ref, name, category, quantity, description, image,
-            updatedAt: Date.now(),
-            createdAt: Date.now()
+            createdAt: existingProduct ? (existingProduct.createdAt || now.timestamp) : now.timestamp,
+            updatedAt: now.timestamp,
+            lastUpdateDate: now.full
         };
         
         try {
-            // التحقق من وجود سلعة بنفس الاسم (اختياري)
-            const existingProduct = products.find(p => p.name === name && p.ref !== ref);
-            if (existingProduct && !editRef) {
-                const confirmAdd = confirm(`⚠️ توجد سلعة بنفس الاسم "${name}"\nهل تريد إضافة سلعة جديدة بنفس الاسم؟\nالسلعة الحالية: ${existingProduct.ref}`);
-                if (!confirmAdd) return;
-            }
-            
             await db.ref(`officeProducts/${ref}`).set(productData);
-            showMessage(`✅ تم حفظ "${name}" بنجاح`);
+            showMessage(isNew ? `✅ تم إضافة "${name}" بنجاح` : `✅ تم تحديث "${name}" بنجاح`);
             resetForm();
             loadProducts();
         } catch(error) {
@@ -1043,7 +1248,6 @@ body {
         editingProduct = null;
         setNewRef();
         
-        // إعادة تعيين اختيار التصنيف
         const firstCat = document.querySelector('.category-item');
         if (firstCat) {
             document.querySelectorAll('.category-item').forEach(item => item.classList.remove('selected'));
@@ -1051,7 +1255,6 @@ body {
         }
     }
     
-    // تحميل المنتجات
     function loadProducts() {
         db.ref('officeProducts').on('value', (snapshot) => {
             const data = snapshot.val();
@@ -1064,8 +1267,6 @@ body {
             document.getElementById('totalItems').innerText = products.length;
             const totalQty = products.reduce((sum, p) => sum + (p.quantity || 0), 0);
             document.getElementById('totalQty').innerText = totalQty;
-            const lowStock = products.filter(p => p.quantity > 0 && p.quantity <= 5).length;
-            document.getElementById('lowStock').innerText = lowStock;
             
             renderFilterTabs();
             displayProducts();
@@ -1081,21 +1282,13 @@ body {
         }
         
         if (searchTerm) {
-            filtered = filtered.filter(p => 
-                p.name.toLowerCase().includes(searchTerm)
-            );
+            filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm));
         }
         
         const container = document.getElementById('productsGrid');
         
         if (filtered.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-box-open"></i>
-                    <h4>لا توجد سلع</h4>
-                    <p>أضف سلعة جديدة من خلال زر "إضافة سلعة"</p>
-                </div>
-            `;
+            container.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><h4>لا توجد سلع</h4><p>أضف سلعة جديدة من خلال زر "إضافة سلعة"</p></div>`;
             return;
         }
         
@@ -1106,6 +1299,10 @@ body {
                     <div class="product-name">${escapeHtml(p.name)}</div>
                     <span class="product-ref"><i class="fas fa-barcode"></i> ${p.ref}</span>
                     <div class="product-cat"><i class="fas fa-folder"></i> ${p.category}</div>
+                    <div class="product-date">
+                        <span class="date-badge"><i class="fas fa-calendar-plus"></i> إضافة: ${formatDate(p.createdAt)}</span>
+                        <span class="date-badge"><i class="fas fa-edit"></i> تعديل: ${formatDate(p.updatedAt)}</span>
+                    </div>
                     <div class="quantity-box">
                         <i class="fas fa-boxes"></i>
                         <span class="quantity-number">${p.quantity}</span>
@@ -1178,8 +1375,107 @@ body {
         }
     }
     
+    // ========== إدارة الملاحظات ==========
+    function loadNotes() {
+        db.ref('officeNotes').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                notes = Object.values(data).sort((a, b) => b.timestamp - a.timestamp);
+            } else {
+                notes = [];
+            }
+            document.getElementById('totalNotes').innerText = notes.length;
+            displayNotes();
+        });
+    }
+    
+    function displayNotes() {
+        const container = document.getElementById('notesList');
+        
+        if (notes.length === 0) {
+            container.innerHTML = `
+                <div class="empty-notes">
+                    <i class="fas fa-sticky-note"></i>
+                    <p>لا توجد ملاحظات بعد</p>
+                    <p style="font-size: 0.8rem;">أضف ملاحظتك الأولى</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = notes.map(note => `
+            <div class="note-item">
+                <div class="note-header">
+                    <div class="note-date">
+                        <i class="fas fa-calendar-alt"></i> ${note.date}
+                        <i class="fas fa-clock"></i> ${note.time}
+                    </div>
+                </div>
+                <div class="note-content">${escapeHtml(note.content)}</div>
+                <div class="note-actions">
+                    <button class="btn-note-delete" onclick="deleteNote('${note.id}')">
+                        <i class="fas fa-trash"></i> حذف الملاحظة
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function showAddNoteModal() {
+        document.getElementById('noteModal').style.display = 'flex';
+        document.getElementById('noteContent').value = '';
+    }
+    
+    function closeNoteModal() {
+        document.getElementById('noteModal').style.display = 'none';
+    }
+    
+    function saveNote() {
+        const content = document.getElementById('noteContent').value.trim();
+        if (!content) {
+            showMessage('الرجاء كتابة الملاحظة', 'error');
+            return;
+        }
+        
+        const now = getCurrentDateTime();
+        const noteId = `note_${now.timestamp}`;
+        
+        const noteData = {
+            id: noteId,
+            content: content,
+            date: now.date,
+            time: now.time,
+            timestamp: now.timestamp,
+            fullDateTime: now.full
+        };
+        
+        db.ref(`officeNotes/${noteId}`).set(noteData).then(() => {
+            showMessage('✅ تم إضافة الملاحظة بنجاح');
+            closeNoteModal();
+        }).catch(() => {
+            showMessage('حدث خطأ في إضافة الملاحظة', 'error');
+        });
+    }
+    
+    function deleteNote(noteId) {
+        if (!confirm('⚠️ هل أنت متأكد من حذف هذه الملاحظة؟')) return;
+        
+        db.ref(`officeNotes/${noteId}`).remove().then(() => {
+            showMessage('✅ تم حذف الملاحظة بنجاح');
+        }).catch(() => {
+            showMessage('حدث خطأ في حذف الملاحظة', 'error');
+        });
+    }
+    
+    // ========== تصدير واستعادة ==========
     function exportData() {
-        const dataStr = JSON.stringify(products, null, 2);
+        const allData = {
+            products: products,
+            categories: categories,
+            notes: notes,
+            exportDate: getCurrentDateTime().full
+        };
+        const dataStr = JSON.stringify(allData, null, 2);
         const blob = new Blob([dataStr], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1187,7 +1483,7 @@ body {
         a.download = `مستودع_المكتب_${new Date().toISOString().split('T')[0]}.json`;
         a.click();
         URL.revokeObjectURL(url);
-        showMessage('✅ تم تصدير البيانات بنجاح');
+        showMessage('✅ تم تصدير جميع البيانات بنجاح');
     }
     
     function importData() {
@@ -1201,12 +1497,28 @@ body {
             const reader = new FileReader();
             reader.onload = async (event) => {
                 try {
-                    const importedProducts = JSON.parse(event.target.result);
-                    for (const product of importedProducts) {
-                        await db.ref(`officeProducts/${product.ref}`).set(product);
+                    const imported = JSON.parse(event.target.result);
+                    
+                    if (imported.products) {
+                        for (const product of imported.products) {
+                            await db.ref(`officeProducts/${product.ref}`).set(product);
+                        }
                     }
-                    showMessage(`✅ تم استعادة ${importedProducts.length} سلعة بنجاح`);
+                    
+                    if (imported.categories && imported.categories.length > 0) {
+                        await db.ref('officeCategories').set(imported.categories);
+                    }
+                    
+                    if (imported.notes) {
+                        for (const note of imported.notes) {
+                            await db.ref(`officeNotes/${note.id}`).set(note);
+                        }
+                    }
+                    
+                    showMessage(`✅ تم استعادة البيانات بنجاح`);
+                    loadCategories();
                     loadProducts();
+                    loadNotes();
                 } catch (error) {
                     showMessage('خطأ في قراءة الملف', 'error');
                 }
@@ -1226,6 +1538,7 @@ body {
         });
     }
     
+    // معاينة الصورة
     document.getElementById('imageFile').addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -1239,9 +1552,17 @@ body {
         }
     });
     
+    // إغلاق المودال عند الضغط خارجها
+    document.getElementById('noteModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('noteModal')) {
+            closeNoteModal();
+        }
+    });
+    
     // التهيئة
     loadCategories();
     loadProducts();
+    loadNotes();
     setNewRef();
 </script>
 </body>
