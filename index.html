@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-<title>مستودع المكتب | نظام متكامل للمخزون والملاحظات</title>
+<title>مستودع المكتب | نظام محمي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,6 +21,125 @@ body {
     min-height: 100vh;
 }
 
+/* شاشة إدخال الكود */
+.code-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s ease;
+}
+
+.code-box {
+    background: white;
+    border-radius: 32px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    animation: fadeInUp 0.5s ease;
+}
+
+.code-box i {
+    font-size: 3rem;
+    color: #3b82f6;
+    margin-bottom: 1rem;
+}
+
+.code-box h2 {
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.code-box p {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.code-input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    text-align: center;
+    font-family: monospace;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    letter-spacing: 5px;
+}
+
+.code-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+
+.code-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.code-buttons button {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Cairo';
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-login {
+    background: #3b82f6;
+    color: white;
+}
+
+.btn-login:hover {
+    background: #2563eb;
+}
+
+.btn-guest {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.btn-guest:hover {
+    background: #e2e8f0;
+}
+
+.error-msg {
+    color: #ef4444;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    display: none;
+}
+
+/* الوضع التجريبي */
+.demo-badge {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #f59e0b;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* باقي الأنماط */
 .top-bar {
     background: linear-gradient(135deg, #1e293b, #0f172a);
     padding: 1rem 2rem;
@@ -121,13 +240,18 @@ body {
     background: #059669;
 }
 
+.btn-disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
 .main-container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem;
 }
 
-/* بطاقات الإحصائيات */
 .stats-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -178,7 +302,6 @@ body {
     color: #1e293b;
 }
 
-/* لوحة الإضافة */
 .add-panel {
     background: white;
     border-radius: 24px;
@@ -260,7 +383,6 @@ body {
     min-height: 80px;
 }
 
-/* قسم التصنيفات */
 .categories-area {
     margin-bottom: 1.5rem;
 }
@@ -370,7 +492,17 @@ body {
     box-shadow: 0 10px 20px rgba(59,130,246,0.3);
 }
 
-/* قسم المنتجات والملاحظات */
+.save-btn-disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.save-btn-disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
 .products-area {
     background: white;
     border-radius: 24px;
@@ -599,7 +731,12 @@ body {
     color: #ef4444;
 }
 
-/* قسم الملاحظات */
+.btn-disabled-action {
+    background: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
 .notes-section {
     background: white;
     border-radius: 24px;
@@ -817,6 +954,27 @@ body {
 </head>
 <body>
 
+<!-- شاشة إدخال الكود -->
+<div id="codeOverlay" class="code-overlay">
+    <div class="code-box">
+        <i class="fas fa-lock"></i>
+        <h2>الوصول إلى النظام</h2>
+        <p>أدخل كود الدخول للوصول إلى لوحة التحكم</p>
+        <input type="password" id="accessCode" class="code-input" placeholder="****" maxlength="6" autocomplete="off">
+        <div class="code-buttons">
+            <button class="btn-login" onclick="checkCode()">دخول</button>
+            <button class="btn-guest" onclick="enterAsGuest()">دخول كزائر (عرض فقط)</button>
+        </div>
+        <div id="codeError" class="error-msg">⚠️ الكود غير صحيح</div>
+    </div>
+</div>
+
+<!-- الوضع التجريبي (يظهر فقط للزوار) -->
+<div id="demoBadge" class="demo-badge" style="display: none;">
+    <i class="fas fa-eye"></i>
+    <span>وضع الزائر - عرض فقط</span>
+</div>
+
 <div class="top-bar">
     <div class="top-bar-content">
         <div class="logo-area">
@@ -827,14 +985,17 @@ body {
             </div>
         </div>
         <div class="buttons-group">
-            <button class="btn btn-primary" onclick="toggleAddPanel()">
+            <button id="addProductBtn" class="btn btn-primary" onclick="toggleAddPanel()">
                 <i class="fas fa-plus-circle"></i> إضافة سلعة
             </button>
-            <button class="btn btn-secondary" onclick="exportData()">
+            <button id="exportBtn" class="btn btn-secondary" onclick="exportData()">
                 <i class="fas fa-download"></i> نسخ احتياطي
             </button>
-            <button class="btn btn-outline" onclick="importData()">
+            <button id="importBtn" class="btn btn-outline" onclick="importData()">
                 <i class="fas fa-upload"></i> استعادة
+            </button>
+            <button id="logoutBtn" class="btn btn-outline" onclick="logout()" style="border-color: #ef4444; color: #ef4444;">
+                <i class="fas fa-sign-out-alt"></i> تسجيل خروج
             </button>
         </div>
     </div>
@@ -922,7 +1083,7 @@ body {
             </div>
             
             <input type="hidden" id="editRefValue">
-            <button type="submit" class="save-btn">
+            <button type="submit" id="saveBtn" class="save-btn">
                 <i class="fas fa-save"></i> حفظ السلعة
             </button>
         </form>
@@ -948,7 +1109,7 @@ body {
     <div class="notes-section">
         <div class="notes-header">
             <h3><i class="fas fa-sticky-note"></i> الملاحظات اليومية</h3>
-            <button class="btn btn-success" onclick="showAddNoteModal()">
+            <button id="addNoteBtn" class="btn btn-success" onclick="showAddNoteModal()">
                 <i class="fas fa-plus"></i> إضافة ملاحظة
             </button>
         </div>
@@ -966,7 +1127,7 @@ body {
         </div>
         <textarea id="noteContent" style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 16px; font-family: 'Cairo'; min-height: 120px; margin-bottom: 1rem;" placeholder="اكتب ملاحظتك هنا..."></textarea>
         <div style="display: flex; gap: 0.5rem;">
-            <button onclick="saveNote()" class="btn btn-primary" style="flex: 1;">حفظ الملاحظة</button>
+            <button id="saveNoteBtn" class="btn btn-primary" style="flex: 1;" onclick="saveNote()">حفظ الملاحظة</button>
             <button onclick="closeNoteModal()" class="btn btn-outline" style="flex: 1;">إلغاء</button>
         </div>
     </div>
@@ -976,7 +1137,11 @@ body {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
-    // Firebase Configuration
+    // ========== كود الدخول ==========
+    const ACCESS_CODE = "dipo"; // يمكنك تغيير الكود هنا
+    let isAdmin = false; // تحديد إذا كان المستخدم مديراً
+    
+    // ========== Firebase Configuration ==========
     const firebaseConfig = {
         apiKey: "AIzaSyCTKYD680Jdbl0azC9RTtuKZBaLX2uU_Ck",
         authDomain: "my-online-store-34f34.firebaseapp.com",
@@ -999,7 +1164,153 @@ body {
     let currentFilter = 'الكل';
     let editingProduct = null;
     
-    // دوال التاريخ
+    // ========== دوال التحقق من الصلاحيات ==========
+    function updateUIByRole() {
+        const isAdminUser = isAdmin;
+        
+        // أزرار الإدارة
+        const addProductBtn = document.getElementById('addProductBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const importBtn = document.getElementById('importBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const addNoteBtn = document.getElementById('addNoteBtn');
+        const saveNoteBtn = document.getElementById('saveNoteBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        if (isAdminUser) {
+            // وضع المدير - كل الصلاحيات
+            if (addProductBtn) {
+                addProductBtn.classList.remove('btn-disabled');
+                addProductBtn.disabled = false;
+                addProductBtn.style.opacity = '1';
+            }
+            if (exportBtn) {
+                exportBtn.classList.remove('btn-disabled');
+                exportBtn.disabled = false;
+            }
+            if (importBtn) {
+                importBtn.classList.remove('btn-disabled');
+                importBtn.disabled = false;
+            }
+            if (saveBtn) {
+                saveBtn.classList.remove('save-btn-disabled');
+                saveBtn.disabled = false;
+            }
+            if (addNoteBtn) {
+                addNoteBtn.classList.remove('btn-disabled');
+                addNoteBtn.disabled = false;
+            }
+            if (saveNoteBtn) {
+                saveNoteBtn.disabled = false;
+            }
+            if (logoutBtn) {
+                logoutBtn.style.display = 'inline-flex';
+            }
+            document.getElementById('demoBadge').style.display = 'none';
+        } else {
+            // وضع الزائر - عرض فقط
+            if (addProductBtn) {
+                addProductBtn.classList.add('btn-disabled');
+                addProductBtn.disabled = true;
+                addProductBtn.style.opacity = '0.5';
+                addProductBtn.style.cursor = 'not-allowed';
+            }
+            if (exportBtn) {
+                exportBtn.classList.add('btn-disabled');
+                exportBtn.disabled = true;
+                exportBtn.style.opacity = '0.5';
+            }
+            if (importBtn) {
+                importBtn.classList.add('btn-disabled');
+                importBtn.disabled = true;
+                importBtn.style.opacity = '0.5';
+            }
+            if (saveBtn) {
+                saveBtn.classList.add('save-btn-disabled');
+                saveBtn.disabled = true;
+            }
+            if (addNoteBtn) {
+                addNoteBtn.classList.add('btn-disabled');
+                addNoteBtn.disabled = true;
+                addNoteBtn.style.opacity = '0.5';
+            }
+            if (saveNoteBtn) {
+                saveNoteBtn.disabled = true;
+                saveNoteBtn.style.opacity = '0.5';
+            }
+            if (logoutBtn) {
+                logoutBtn.style.display = 'inline-flex';
+            }
+            document.getElementById('demoBadge').style.display = 'flex';
+        }
+        
+        // تحديث عرض الأزرار في البطاقات
+        renderProductsWithPermissions();
+    }
+    
+    function renderProductsWithPermissions() {
+        displayProducts(); // ستعيد عرض المنتجات مع أزرار مناسبة حسب الصلاحيات
+    }
+    
+    // ========== دوال إدارة الجلسة ==========
+    function checkCode() {
+        const code = document.getElementById('accessCode').value;
+        if (code === ACCESS_CODE) {
+            isAdmin = true;
+            localStorage.setItem('userRole', 'admin');
+            localStorage.setItem('sessionActive', 'true');
+            document.getElementById('codeOverlay').style.display = 'none';
+            updateUIByRole();
+            showMessage('✅ مرحباً بك! لديك صلاحيات كاملة', 'success');
+            loadAllData();
+        } else {
+            document.getElementById('codeError').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('codeError').style.display = 'none';
+            }, 2000);
+        }
+    }
+    
+    function enterAsGuest() {
+        isAdmin = false;
+        localStorage.setItem('userRole', 'guest');
+        localStorage.setItem('sessionActive', 'true');
+        document.getElementById('codeOverlay').style.display = 'none';
+        updateUIByRole();
+        showMessage('👋 مرحباً بك زائراً! يمكنك عرض السلع فقط', 'warning');
+        loadAllData();
+    }
+    
+    function logout() {
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('sessionActive');
+        isAdmin = false;
+        document.getElementById('codeOverlay').style.display = 'flex';
+        document.getElementById('accessCode').value = '';
+        showMessage('تم تسجيل الخروج بنجاح', 'success');
+    }
+    
+    function checkSession() {
+        const session = localStorage.getItem('sessionActive');
+        const role = localStorage.getItem('userRole');
+        if (session === 'true') {
+            if (role === 'admin') {
+                isAdmin = true;
+                document.getElementById('codeOverlay').style.display = 'none';
+                updateUIByRole();
+                loadAllData();
+            } else if (role === 'guest') {
+                isAdmin = false;
+                document.getElementById('codeOverlay').style.display = 'none';
+                updateUIByRole();
+                loadAllData();
+            }
+        } else {
+            document.getElementById('codeOverlay').style.display = 'flex';
+        }
+    }
+    
+    // ========== الدوال الأساسية ==========
     function getCurrentDateTime() {
         const now = new Date();
         const year = now.getFullYear();
@@ -1072,7 +1383,9 @@ body {
     }
     
     function saveCategories() {
-        db.ref('officeCategories').set(categories);
+        if (isAdmin) {
+            db.ref('officeCategories').set(categories);
+        }
         document.getElementById('totalCats').innerText = categories.length;
     }
     
@@ -1080,12 +1393,12 @@ body {
         const container = document.getElementById('categoriesList');
         container.innerHTML = categories.map(cat => `
             <div class="category-item ${editingProduct && editingProduct.category === cat ? 'selected' : ''}" 
-                 onclick="selectCategory(this, '${cat}')">
+                 onclick="${isAdmin ? `selectCategory(this, '${cat}')` : ''}" style="${!isAdmin ? 'cursor: default;' : ''}">
                 <i class="fas fa-folder"></i>
                 <span>${cat}</span>
-                <button type="button" class="delete-cat" onclick="event.stopPropagation(); removeCategory('${cat}')">
+                ${isAdmin ? `<button type="button" class="delete-cat" onclick="event.stopPropagation(); removeCategory('${cat}')">
                     <i class="fas fa-times"></i>
-                </button>
+                </button>` : ''}
             </div>
         `).join('');
         
@@ -1096,6 +1409,7 @@ body {
     }
     
     function selectCategory(element, cat) {
+        if (!isAdmin) return;
         document.querySelectorAll('.category-item').forEach(item => item.classList.remove('selected'));
         element.classList.add('selected');
     }
@@ -1109,6 +1423,10 @@ body {
     }
     
     function addNewCategory() {
+        if (!isAdmin) {
+            showMessage('لا تملك صلاحية إضافة تصنيفات', 'error');
+            return;
+        }
         const input = document.getElementById('newCategoryName');
         const newCat = input.value.trim();
         if (!newCat) {
@@ -1129,6 +1447,10 @@ body {
     }
     
     function removeCategory(cat) {
+        if (!isAdmin) {
+            showMessage('لا تملك صلاحية حذف تصنيفات', 'error');
+            return;
+        }
         if (categories.length === 1) {
             showMessage('لا يمكن حذف آخر تصنيف', 'error');
             return;
@@ -1180,6 +1502,11 @@ body {
     // ========== إدارة المنتجات ==========
     async function saveProduct(event) {
         event.preventDefault();
+        
+        if (!isAdmin) {
+            showMessage('لا تملك صلاحية إضافة أو تعديل المنتجات', 'error');
+            return;
+        }
         
         let ref = document.getElementById('ref').value.trim();
         const name = document.getElementById('name').value.trim();
@@ -1312,8 +1639,12 @@ body {
                     </div>
                     ${p.description ? `<div class="product-desc"><i class="fas fa-align-left"></i> ${escapeHtml(p.description)}</div>` : ''}
                     <div class="action-buttons">
-                        <button class="action-btn edit-btn" onclick="editItem('${p.ref}')"><i class="fas fa-edit"></i> تعديل</button>
-                        <button class="action-btn delete-btn" onclick="deleteItem('${p.ref}')"><i class="fas fa-trash"></i> حذف</button>
+                        <button class="action-btn edit-btn ${!isAdmin ? 'btn-disabled-action' : ''}" onclick="${isAdmin ? `editItem('${p.ref}')` : ''}" ${!isAdmin ? 'disabled' : ''}>
+                            <i class="fas fa-edit"></i> تعديل
+                        </button>
+                        <button class="action-btn delete-btn ${!isAdmin ? 'btn-disabled-action' : ''}" onclick="${isAdmin ? `deleteItem('${p.ref}')` : ''}" ${!isAdmin ? 'disabled' : ''}>
+                            <i class="fas fa-trash"></i> حذف
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1321,6 +1652,7 @@ body {
     }
     
     function editItem(ref) {
+        if (!isAdmin) return;
         const product = products.find(p => p.ref === ref);
         if (!product) return;
         
@@ -1349,6 +1681,7 @@ body {
     }
     
     async function deleteItem(ref) {
+        if (!isAdmin) return;
         const product = products.find(p => p.ref === ref);
         if (!confirm(`⚠️ هل أنت متأكد من حذف "${product?.name}"؟`)) return;
         
@@ -1368,6 +1701,10 @@ body {
     }
     
     function toggleAddPanel() {
+        if (!isAdmin) {
+            showMessage('لا تملك صلاحية الوصول إلى لوحة الإضافة', 'error');
+            return;
+        }
         const panel = document.getElementById('addPanel');
         panel.classList.toggle('active');
         if (panel.classList.contains('active')) {
@@ -1413,15 +1750,19 @@ body {
                 </div>
                 <div class="note-content">${escapeHtml(note.content)}</div>
                 <div class="note-actions">
-                    <button class="btn-note-delete" onclick="deleteNote('${note.id}')">
+                    ${isAdmin ? `<button class="btn-note-delete" onclick="deleteNote('${note.id}')">
                         <i class="fas fa-trash"></i> حذف الملاحظة
-                    </button>
+                    </button>` : ''}
                 </div>
             </div>
         `).join('');
     }
     
     function showAddNoteModal() {
+        if (!isAdmin) {
+            showMessage('لا تملك صلاحية إضافة ملاحظات', 'error');
+            return;
+        }
         document.getElementById('noteModal').style.display = 'flex';
         document.getElementById('noteContent').value = '';
     }
@@ -1431,6 +1772,7 @@ body {
     }
     
     function saveNote() {
+        if (!isAdmin) return;
         const content = document.getElementById('noteContent').value.trim();
         if (!content) {
             showMessage('الرجاء كتابة الملاحظة', 'error');
@@ -1458,6 +1800,7 @@ body {
     }
     
     function deleteNote(noteId) {
+        if (!isAdmin) return;
         if (!confirm('⚠️ هل أنت متأكد من حذف هذه الملاحظة؟')) return;
         
         db.ref(`officeNotes/${noteId}`).remove().then(() => {
@@ -1469,6 +1812,10 @@ body {
     
     // ========== تصدير واستعادة ==========
     function exportData() {
+        if (!isAdmin) {
+            showMessage('لا تملك صلاحية تصدير البيانات', 'error');
+            return;
+        }
         const allData = {
             products: products,
             categories: categories,
@@ -1487,6 +1834,10 @@ body {
     }
     
     function importData() {
+        if (!isAdmin) {
+            showMessage('لا تملك صلاحية استعادة البيانات', 'error');
+            return;
+        }
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = 'application/json';
@@ -1528,6 +1879,13 @@ body {
         input.click();
     }
     
+    function loadAllData() {
+        loadCategories();
+        loadProducts();
+        loadNotes();
+        setNewRef();
+    }
+    
     function escapeHtml(str) {
         if (!str) return '';
         return str.replace(/[&<>]/g, function(m) {
@@ -1559,11 +1917,8 @@ body {
         }
     });
     
-    // التهيئة
-    loadCategories();
-    loadProducts();
-    loadNotes();
-    setNewRef();
+    // التحقق من الجلسة عند التحميل
+    checkSession();
 </script>
 </body>
 </html>
