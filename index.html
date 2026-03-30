@@ -6,16 +6,30 @@
 <title>متجري أونلاين</title>
 
 <style>
-* {box-sizing:border-box; font-family: 'Segoe UI', Tahoma;}
-body {background: linear-gradient(135deg,#667eea,#764ba2); padding:20px; margin:0;}
-.container {max-width:1200px;margin:auto;}
-.admin-panel {background:white;border-radius:20px;padding:20px;display:none;}
+*{box-sizing:border-box;font-family:'Segoe UI',Tahoma;}
+body{background:linear-gradient(135deg,#667eea,#764ba2);padding:20px;margin:0;}
+.container{max-width:1200px;margin:auto;}
+
+.admin-panel{background:white;border-radius:20px;padding:20px;display:none;}
 .admin-panel.show{display:block;}
-button {background:#667eea;color:white;border:none;padding:10px;border-radius:10px;cursor:pointer;}
-.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;margin-top:20px;}
+
+button{background:#667eea;color:white;border:none;padding:10px;border-radius:10px;cursor:pointer;margin:5px 0;}
+button:hover{opacity:0.9;}
+
+.products-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+gap:20px;margin-top:20px;
+}
+
 .product-card{background:white;border-radius:15px;overflow:hidden;}
 .product-card img{width:100%;height:200px;object-fit:cover;}
+
 .product-info{padding:10px;}
+
+input{width:100%;padding:8px;margin:5px 0;border-radius:8px;border:1px solid #ccc;}
+
+video{width:100%;border-radius:10px;margin-top:10px;}
 </style>
 </head>
 
@@ -27,21 +41,23 @@ button {background:#667eea;color:white;border:none;padding:10px;border-radius:10
 
 <div id="adminPanel" class="admin-panel">
 
-<input id="refInput" placeholder="رفيرونس"><br><br>
-<input id="nameInput" placeholder="اسم"><br><br>
-<input id="typeInput" placeholder="نوع"><br><br>
-<input id="quantityInput" type="number" value="1"><br><br>
-<input id="priceInput" type="number" value="0"><br><br>
+<input id="refInput" placeholder="رفيرونس">
+<input id="nameInput" placeholder="اسم">
+<input id="typeInput" placeholder="نوع">
+<input id="quantityInput" type="number" value="1">
+<input id="priceInput" type="number" value="0">
 
-<input type="file" id="imageUpload"><br><br>
+<input type="file" id="imageUpload">
 
 <button onclick="openCamera()">📷 تصوير مباشر</button>
-<video id="camera" style="display:none;width:100%" autoplay></video>
+<button onclick="switchCamera()">🔄 تبديل الكاميرا</button>
+
+<video id="camera" style="display:none;" autoplay></video>
 <button onclick="takePhoto()" id="captureBtn" style="display:none;">📸 التقاط</button>
 
-<div id="imagePreview"></div><br>
+<div id="imagePreview"></div>
 
-<button onclick="addProduct()">💾 إضافة</button>
+<button onclick="addProduct()">💾 إضافة / تعديل</button>
 
 </div>
 
@@ -60,18 +76,28 @@ button {background:#667eea;color:white;border:none;padding:10px;border-radius:10
 <script>
 
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "arabic-game-onlin.firebaseapp.com",
-  databaseURL: "https://arabic-game-onlin-default-rtdb.europe-west1.firebasedatabase.app",
+apiKey: "YOUR_KEY",
+authDomain: "arabic-game-onlin.firebaseapp.com",
+databaseURL: "https://arabic-game-onlin-default-rtdb.europe-west1.firebasedatabase.app",
 };
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 let cameraStream=null;
 let capturedImage='';
+let useFrontCamera=true;
 
+// تشغيل الكاميرا
 function openCamera(){
-navigator.mediaDevices.getUserMedia({video:true})
+
+if(cameraStream){
+cameraStream.getTracks().forEach(t=>t.stop());
+}
+
+navigator.mediaDevices.getUserMedia({
+video:{facingMode:useFrontCamera?"user":"environment"}
+})
 .then(stream=>{
 cameraStream=stream;
 camera.srcObject=stream;
@@ -80,10 +106,18 @@ captureBtn.style.display='block';
 });
 }
 
+// تبديل الكاميرا
+function switchCamera(){
+useFrontCamera=!useFrontCamera;
+openCamera();
+}
+
+// التقاط صورة
 function takePhoto(){
 let canvas=document.createElement('canvas');
 canvas.width=camera.videoWidth;
 canvas.height=camera.videoHeight;
+
 canvas.getContext('2d').drawImage(camera,0,0);
 
 capturedImage=canvas.toDataURL();
@@ -94,6 +128,7 @@ camera.style.display='none';
 captureBtn.style.display='none';
 }
 
+// تحويل صورة
 function imageToBase64(file){
 return new Promise(r=>{
 let reader=new FileReader();
@@ -102,6 +137,7 @@ reader.readAsDataURL(file);
 });
 }
 
+// إضافة أو تعديل
 async function addProduct(){
 
 let ref=refInput.value.toUpperCase();
@@ -117,11 +153,36 @@ if(capturedImage) img=capturedImage;
 else if(file) img=await imageToBase64(file);
 else img='https://picsum.photos/300';
 
-db.ref('products/'+ref).set({ref,name,type,quantity:q,price:p,image:img});
+db.ref('products/'+ref).set({
+ref,name,type,quantity:q,price:p,image:img
+});
 
-alert("تمت الإضافة");
+alert("تمت العملية");
+displayAllProducts();
 }
 
+// حذف
+function deleteProduct(ref){
+if(confirm("هل أنت متأكد من الحذف؟")){
+db.ref('products/'+ref).remove();
+displayAllProducts();
+}
+}
+
+// تعديل
+function editProduct(ref,name,type,price,quantity){
+
+refInput.value=ref;
+nameInput.value=name;
+typeInput.value=type;
+priceInput.value=price;
+quantityInput.value=quantity;
+
+adminPanel.classList.add('show');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// عرض المنتجات
 function displayAllProducts(filter=''){
 db.ref('products').once('value').then(snap=>{
 let arr=Object.values(snap.val()||{});
@@ -141,9 +202,13 @@ html+=`
 <div class="product-card">
 <img src="${p.image}">
 <div class="product-info">
-${p.name}<br>
+<b>${p.name}</b><br>
 ${p.type}<br>
-${p.price} دج
+💰 ${p.price} دج<br><br>
+
+<button onclick="deleteProduct('${p.ref}')">🗑️ حذف</button>
+<button onclick="editProduct('${p.ref}','${p.name}','${p.type}','${p.price}','${p.quantity}')">✏️ تعديل</button>
+
 </div>
 </div>`;
 });
@@ -152,10 +217,12 @@ productsGrid.innerHTML=html;
 });
 }
 
+// البحث
 function searchProducts(){
 displayAllProducts(searchInput.value);
 }
 
+// إظهار لوحة الإدارة
 function toggleAdmin(){
 adminPanel.classList.toggle('show');
 }
